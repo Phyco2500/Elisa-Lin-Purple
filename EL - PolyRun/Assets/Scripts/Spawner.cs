@@ -10,6 +10,8 @@ public class Spawner : MonoBehaviour
     public float spawnDelay = 1f;
     [Header("default spawn time")]
     public float spawnTime = 2f;
+    public Vector3 haha;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +21,7 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(15, -4.5f, 0);
+        transform.position = haha;
     }
     void InstantiateObjects()
     {
