@@ -437,7 +437,7 @@ MonoBehaviour:
   challengeObject: {fileID: 8452607392613834131, guid: d5e39e8b05834264981b493154fc56a3, type: 3}
   spawnDelay: 2
   spawnTime: 3
-  haha: {x: 20, y: -4.5, z: 0}
+  haha: {x: 20.5, y: -4.5, z: 0}
 --- !u!4 &1071744994
 Transform:
   m_ObjectHideFlags: 0
