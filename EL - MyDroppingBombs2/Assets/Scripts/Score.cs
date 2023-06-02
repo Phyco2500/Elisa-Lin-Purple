@@ -12,7 +12,9 @@ public class Score : MonoBehaviour
 
     public void Start()
     {
+        Debug.Log(0.71428571428);
         scoreText.text = "Score: " + score.ToString();
+
     }
 
 
@@ -21,4 +23,5 @@ public class Score : MonoBehaviour
         score = score + points;
         scoreText.text = "Score: " + score.ToString();
     }
+
 }
