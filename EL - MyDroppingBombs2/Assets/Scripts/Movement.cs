@@ -33,7 +33,13 @@ public class Movement : MonoBehaviour
         masterSpeed = speed;        
     }
 
-
+    private void Update()
+    {
+        if (Input.GetButtonDown("🙂"))
+        {
+            Debug.Log("🙂");
+        }
+    }
 
     // Update is called once per frame
     void FixedUpdate()
