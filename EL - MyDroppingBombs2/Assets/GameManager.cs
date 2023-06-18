@@ -16,6 +16,12 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public int pointsWorth = 1;
     private int score;
+
+    private bool smokeCleared = true;
+
+    private int highScore = 0;
+    public Text highScoreText;
+    private bool beatHighScore;
     // Start is called before the first frame update
 
     void Awake()
@@ -24,6 +30,7 @@ public class GameManager : MonoBehaviour
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
         player = playerPrefab;
         scoreText.enabled = false;
+        highScoreText.enabled = false;
     }
 
     void Start()
@@ -31,6 +38,9 @@ public class GameManager : MonoBehaviour
         spawner.active = false;
         title.SetActive(true);
         splash.SetActive(false);
+
+        highScore = PlayerPrefs.GetInt("HighScore");
+        highScoreText.text = "HighScore" + highScore.ToString();
     }
 
     // Update is called once per frame
@@ -38,8 +48,9 @@ public class GameManager : MonoBehaviour
     {
         if (!gameStarted)
         {
-            if (Input.anyKeyDown)
+            if (Input.anyKeyDown && smokeCleared)
             {
+                smokeCleared = false;
                 ResetGame();
             }
         } else
@@ -64,6 +75,22 @@ public class GameManager : MonoBehaviour
                 Destroy(bombObject);
             }
         }
+
+        if (!gameStarted)
+        {
+            var textColor = "#323232";
+
+            if (beatHighScore)
+            {
+                textColor = "#F00";
+            }
+
+            highScoreText.text = "<color=" + textColor + ">High Score:" + highScore.ToString() + "</color>";
+        }
+        else
+        {
+            highScoreText.text = "";
+        }
     }
 
     void ResetGame()
@@ -77,6 +104,9 @@ public class GameManager : MonoBehaviour
         scoreText.enabled = true;
         ScoreSystem.GetComponent<Score>().score = 0;
         ScoreSystem.GetComponent<Score>().Start();
+
+        beatHighScore = false;
+        highScoreText.enabled = true;
     }
 
     void OnPlayerKilled()
@@ -84,6 +114,22 @@ public class GameManager : MonoBehaviour
         spawner.active = false;
         gameStarted = false;
 
+        Invoke("SplashScreen", 2f);
+
+        score = ScoreSystem.GetComponent<Score>().score;
+
+        if(score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            beatHighScore = true;
+            highScoreText.text = "High Score:" + highScore.ToString();
+        }
+    }
+
+    void SplashScreen()
+    {
+        smokeCleared = true;
         splash.SetActive(true);
     }
 }
